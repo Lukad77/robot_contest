@@ -1,0 +1,113 @@
+<!-- STDR智能工厂服务仿真 -->
+<launch>
+
+  <!-- 启动语音播报任务 -->
+  <node pkg="sebot_speech" type="sebot_audio.py" name="sebot_audio" respawn="true" />
+  
+  <!-- 发布机器人静态坐标 -->
+  <node pkg="sebot_robot" type="sebot_transform" name="sebot_transform" respawn="true"/>
+
+  <!-- 启动机器人的控制节点 -->
+  <node pkg="sebot_robot" type="sebot_controller" name="sebot_controller" respawn="true">
+      <!-- 是否发布传感器话题 value：true发布 false不发布 -->
+      <param name="ultraEnale"  type="bool" value="false"/>    <!-- 超声波使能 -->
+      <param name="odomEnable"  type="bool" value="true"/>    <!-- 里程计使能 -->
+      <param name="imuEnable"   type="bool" value="true"/>    <!-- imu使能 -->
+  </node>
+
+  <!-- 启动融合里程计 -->
+  <include file = "$(find robot_pose_ekf)/launch/robot_pose_ekf.launch"/>
+
+  <!-- 启动激光雷达 -->
+  <include file = "$(find rplidar_ros)/launch/rplidar.launch" />
+
+  <!-- 加载SLAM地图 -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find sebot_navigation)/map/map.yaml" respawn="true">
+    <param name="map" value="/map"/>
+  </node>
+
+  <!-- 启动蒙特卡洛定位算法 -->
+  <include file="$(find sebot_navigation)/param/amcl.xml"/>
+
+  <!-- 启动move_base路径规划 -->
+  <include file = "$(find sebot_navigation)/param/move_base.xml" />
+
+  <!-- 启动仿真监控界面 -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find sebot_navigation)/rviz/navigation.rviz"/>
+
+  <!-- 启动智能工厂服务 -->
+  <node pkg="sebot_factory" type="sebot_factory" name="sebot_factory" output="screen" >
+    <param name="delayStart"  type="int"  value="10"/>      <!-- 程序启动延时（s），等待其它节点正常启动 -->
+    <param name="timeoutNavi" type="int"  value="5000"/>    <!-- 导航超时时间：ms -->
+    <param name="navigation_timeout" type="int" value="5000"/>       <!-- 导航单次等待超时：ms -->
+    <param name="max_retry_count" type="int" value="1"/>             <!-- 单个导航目标最多重发次数 -->
+    <param name="navigation_server_timeout" type="int" value="5"/>   <!-- 等待move_base服务时间：s -->
+    <param name="navigation_settle_ms" type="int" value="150"/>      <!-- 发送导航目标后的短等待：ms -->
+    <param name="simulation" type="bool"  value="false"/>   <!-- STDR仿真模式使能 -->
+
+    <!-- 需求确认+智能取件相关配置参数 -->
+    <param name="pidPoseKp"  value="12.0"/>         <!-- 方向PID：比例系数 -->
+    <param name="pidPoseKi"  value="5.0"/>          <!-- 方向PID：积分系数 -->
+    <param name="pidPoseKd"  value="10.0"/>         <!-- 方向PID：微分系数 -->
+
+    <param name="pidDisKp"  value="5.0"/>           <!-- 距离PID：比例系数 -->
+    <param name="pidDisKi"  value="0.3"/>           <!-- 距离PID：积分系数 -->
+    <param name="pidDisKd"  value="0.0"/>           <!-- 距离PID：微分系数 -->
+
+    <param name="pidLocalKp"  value="0.001"/>       <!-- 位置PID：比例系数 -->
+    <param name="pidLocalKi"  value="0.00012"/>      <!-- 位置PID：积分系数 -->
+    <param name="pidLocalKd"  value="0.003"/>      <!-- 位置PID：微分系数 -->
+
+    <param name="pidClawXKp"  value="0.0002"/>       <!-- 机械爪PID：比例系数 -->
+    <param name="pidClawXKi"  value="0.000055"/>     <!-- 机械爪PID：积分系数 -->
+    <param name="pidClawXKd"  value="0.0005"/>       <!-- 机械爪PID：微分系数 -->
+    <param name="pidClawYKp"  value="0.0001"/>       <!-- 机械爪PID：比例系数 -->
+    <param name="pidClawYKi"  value="0.00025"/>     <!-- 机械爪PID：积分系数 -->
+    <param name="pidClawYKd"  value="0.0005"/>       <!-- 机械爪PID：微分系数 -->
+
+    <param name="disClaw"  value="0.55"/>            <!-- 机械爪夹取零件距离：m（需要+激光雷达盲区20cm） -->
+    <param name="disPick"  value="0.7"/>             <!-- 机械臂抓取零件距离：m（需要+激光雷达盲区20cm） -->
+    <param name="disSearch"  value="1.0"/>          <!-- AI搜索零件距离：m（需要+激光雷达盲区20cm） -->
+    
+    <param name="disOrder"  value="0.75"/>           <!-- [需求确认] 机器人距离阈值：m（需要+激光雷达盲区20cm） -->
+    <param name="debug" type="bool" value="true"/>   <!-- 调试标志：打开图像识别界面，比赛正式计时时建议改回false -->
+    <param name="score"  value="0.5"/>               <!-- AI检测置信度 -->
+
+    <!-- 总流程等待参数 -->
+    <param name="initial_pose_retry_interval" type="int" value="1000"/>   <!-- 初始化阶段重发AMCL初始位姿间隔：ms -->
+    <param name="audio_navigation_delay_ms" type="int" value="0"/>        <!-- 导航前等待语音时间，默认不阻塞导航 -->
+    <param name="inter_step_delay_ms" type="int" value="100"/>            <!-- 状态切换短等待：ms -->
+    <param name="post_pick_relocalize_delay_ms" type="int" value="300"/>  <!-- 取件后发布取件台位姿前等待：ms -->
+
+    <!-- 取件台边缘补扫与多帧确认参数 -->
+    <param name="scan_center_duration" type="int" value="800"/>           <!-- 中间视角停留识别：ms -->
+    <param name="scan_left_duration" type="int" value="2200"/>            <!-- 左边缘低速补扫：ms -->
+    <param name="scan_right_duration" type="int" value="2600"/>           <!-- 右边缘低速补扫：ms -->
+    <param name="scan_return_duration" type="int" value="800"/>           <!-- 扫到左端后的停留识别时间：ms -->
+    <param name="scan_yaw_offset" value="0.02"/>                          <!-- 左右补扫角度偏置，过大会导致车身偏得太多 -->
+    <param name="scan_lateral_offset" type="int" value="60"/>             <!-- 左右补扫横向诱导像素，越小扫得越慢 -->
+    <param name="detection_confirm_frames" type="int" value="5"/>         <!-- 连续检测确认帧数 -->
+    <param name="detection_miss_reset_frames" type="int" value="8"/>      <!-- 丢失多少帧后重置确认 -->
+    <param name="pickup_search_timeout" type="int" value="13500"/>        <!-- 单个零件搜索总超时：ms，覆盖右扫后的反向回扫 -->
+    <param name="part_detect_max_width" type="int" value="100"/>          <!-- 取件目标最大框宽 -->
+    <param name="part_detect_max_height" type="int" value="140"/>         <!-- 取件目标最大框高 -->
+    <param name="part_detect_min_y" type="int" value="100"/>              <!-- 取件目标最低Y过滤阈值，越小越宽松 -->
+
+    <!-- 相机与机械臂动作等待参数 -->
+    <param name="camera_warmup_ms" type="int" value="300"/>
+    <param name="camera_switch_settle_ms" type="int" value="300"/>
+    <param name="camera_switch_timeout" type="int" value="1200"/>
+    <param name="arm_extend_timeout" type="int" value="7000"/>
+    <param name="arm_post_extend_settle_ms" type="int" value="800"/>
+    <param name="claw_grab_wait_ms" type="int" value="3200"/>
+    <param name="put_action_timeout" type="int" value="10000"/>
+    <param name="arm_post_put_settle_ms" type="int" value="800"/>
+    <param name="place_pre_release_wait_ms" type="int" value="1000"/>
+    <param name="place_release_wait_ms" type="int" value="4500"/>
+    <param name="place_approach_timeout" type="int" value="5000"/>       <!-- 放置阶段靠近工作台超时，避免低速靠近时过早释放 -->
+    <param name="place_approach_out_max" value="0.10"/>                <!-- 放置阶段靠近工作台速度上限，越小越稳 -->
+    <param name="place_drop_offset_y" value="-0.22"/>                  <!-- 放置前机械爪下探高度，负值越大越靠近桌面 -->
+
+  </node>
+  
+</launch>

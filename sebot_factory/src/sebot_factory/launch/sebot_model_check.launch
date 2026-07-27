@@ -1,0 +1,29 @@
+<launch>
+  <arg name="model_path" default="$(find sebot_factory)/res/model"/>
+  <arg name="source" default="camera"/>
+  <arg name="score" default="0.4"/>
+  <arg name="frames" default="30"/>
+  <arg name="min_hits" default="3"/>
+  <arg name="show" default="true"/>
+  <arg name="print_all" default="false"/>
+  <arg name="save_dir" default=""/>
+  <arg name="roi_x" default="0"/>
+  <arg name="roi_y" default="0"/>
+  <arg name="roi_w" default="320"/>
+  <arg name="roi_h" default="240"/>
+
+  <node pkg="sebot_factory" type="sebot_model_check" name="sebot_model_check" output="screen">
+    <param name="model_path" value="$(arg model_path)"/>
+    <param name="source" value="$(arg source)"/>
+    <param name="score" value="$(arg score)"/>
+    <param name="frames" value="$(arg frames)"/>
+    <param name="min_hits" value="$(arg min_hits)"/>
+    <param name="show" value="$(arg show)"/>
+    <param name="print_all" value="$(arg print_all)"/>
+    <param name="save_dir" value="$(arg save_dir)"/>
+    <param name="roi_x" value="$(arg roi_x)"/>
+    <param name="roi_y" value="$(arg roi_y)"/>
+    <param name="roi_w" value="$(arg roi_w)"/>
+    <param name="roi_h" value="$(arg roi_h)"/>
+  </node>
+</launch>
