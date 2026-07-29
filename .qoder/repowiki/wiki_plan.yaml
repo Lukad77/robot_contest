@@ -1,0 +1,36 @@
+version: 1
+
+scope:
+  include: []
+  exclude:
+    - "sebot_factory/src/sebot_factory/res/model_backup*/**"
+    - "sebot_factory/src/sebot_factory/res/demo.mp4"
+    - "sebot_factory/src/sebot_marking/resources/media/**"
+    - "**/build/**"
+    - "**/devel/**"
+
+repowiki:
+  template: architecture
+  notes:
+    - text: 本仓库由三个相互独立的 catkin 工作空间组成（sebot_factory 应用层、sebot_ros_kits 机器人套件、sebot_ros_stdr 仿真层），各自含 src/ 且需分别 catkin_make，文档结构应按此三层划分。
+      author: hpw
+    - text: 自研核心代码集中在 sebot_factory（factory.cpp 送件状态机、confirm.cpp 需求确认、picking.cpp 智能取件、summary.cpp 结算汇总、unit/ 下各业务子节点）、sebot_marking（Qt 建图标注上位机）、sebot_robot、sebot_speech、sebot_visions，wiki 应以这些包为分析重点。
+      author: hpw
+    - text: sebot_navigation 下的 navigation 导航栈各包、rplidar_ros、robot_pose_ekf、slam_gmapping、slam_hector 以及 sebot_ros_stdr 下的 STDR 各包均 fork 自 ROS 官方/开源项目，不要深入分析其内部源码实现，只需说明其在本项目中的角色、launch 集成方式与参数定制。
+      author: hpw
+    - text: 比赛业务全链路为「上电自检 → 加载地图与 AMCL 定位 → 按订单导航至取件台 → 需求确认 → YOLO 视觉搜索（NPU 加速 Yolov3，多帧检测确认）→ 机械臂 PID 闭环抓取 → 导航送达并结算」，主状态机基于 MultiNavi 实现于 factory.cpp。
+      author: hpw
+    - text: 运行配置集中在 launch/sebot_factory.launch，其中 simulation 参数切换 STDR 仿真模式、debug 参数控制图像识别界面开关；导航超时、PID、取件距离、补扫参数等均在此配置，文档需覆盖这些关键参数含义。
+      author: hpw
+    - text: 技术栈为 ROS 1 + catkin，C++（roscpp）为主、Python 脚本为辅；导航采用 move_base + AMCL + DWA，建图为 Gmapping/Hector，机械臂为 MoveIt!（Talon），传感器为 RPLidar + IMU + 里程计 EKF 融合。
+      author: hpw
+  documents: []
+
+knowledgecard:
+  notes:
+    - text: 知识卡按三个 catkin 工作空间划分顶层模块；sebot_factory 内再按业务节点拆分（主状态机 factory、需求确认 confirm、智能取件 picking、结算 summary、机械臂 arm、YOLO 检测、下单/付款子流程），sebot_marking 单独成模块。
+      author: hpw
+    - text: fork 自 ROS 官方/开源的第三方包（navigation 栈、rplidar_ros、robot_pose_ekf、slam_gmapping、slam_hector、STDR 仿真器各包）不要为其内部实现生成细粒度知识卡，只需在集成/配置层面各聚合为一个模块，聚焦本项目的参数与 launch 定制。
+      author: hpw
+    - text: 知识卡应重点沉淀：三工作空间独立编译流程（catkin_make + source devel/setup.bash）、sebot_factory.launch 关键参数（simulation/debug/导航超时/PID/取件距离/补扫）、真机与 STDR 仿真两种运行模式的切换方法。
+      author: hpw
