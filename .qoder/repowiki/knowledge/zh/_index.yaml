@@ -3,7 +3,7 @@ schema_version: 1
 locale: zh-CN
 branch: master
 nodes_managed: true
-exported_at: "2026-07-29T02:47:44Z"
+exported_at: "2026-07-29T03:21:28Z"
 modules:
     "":
         dir_name: 智能服务机器人竞赛工程（robot_contest）
