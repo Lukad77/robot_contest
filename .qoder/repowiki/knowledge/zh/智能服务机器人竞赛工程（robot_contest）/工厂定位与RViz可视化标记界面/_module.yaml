@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: sebot_marking
+title: 工厂定位与RViz可视化标记界面
+scope:
+    - sebot_factory/src/sebot_marking/
+source_files: []
+depends_on: []
+related_to:
+    - path: sebot_navigation_stack

@@ -1,0 +1,10 @@
+schema_version: 1
+module_path: sebot_factory/shared_headers_and_resources
+title: 共享头文件与资源（机械臂驱动、相机探测、AI检测、工具库）
+scope:
+    - sebot_factory/src/sebot_factory/include/
+    - sebot_factory/src/sebot_factory/res/
+source_files: []
+depends_on: []
+related_to:
+    - path: sebot_factory/arm_control

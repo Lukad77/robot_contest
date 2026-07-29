@@ -1,0 +1,13 @@
+schema_version: 1
+module_path: sebot_factory
+title: sebot_factory 机器人工厂自动化套件
+scope:
+    - sebot_factory/
+source_files: []
+depends_on: []
+related_to:
+    - path: sebot_driver_packages/robot_pose_ekf
+    - path: sebot_driver_packages/rplidar_ros
+    - path: sebot_navigation_stack
+    - path: sebot_robot_control
+    - path: sebot_speech_vision

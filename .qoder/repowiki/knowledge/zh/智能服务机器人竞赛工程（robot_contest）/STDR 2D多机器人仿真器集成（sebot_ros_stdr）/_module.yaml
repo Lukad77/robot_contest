@@ -1,0 +1,8 @@
+schema_version: 1
+module_path: sebot_stdr_simulator
+title: STDR 2D多机器人仿真器集成（sebot_ros_stdr）
+scope:
+    - sebot_ros_stdr/
+source_files: []
+depends_on: []
+related_to: []

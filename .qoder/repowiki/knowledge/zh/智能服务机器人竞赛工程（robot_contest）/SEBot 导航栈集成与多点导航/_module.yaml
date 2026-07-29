@@ -1,0 +1,11 @@
+schema_version: 1
+module_path: sebot_navigation_stack
+title: SEBot 导航栈集成与多点导航
+scope:
+    - sebot_ros_kits/src/sebot_navigation/
+source_files: []
+depends_on: []
+related_to:
+    - path: sebot_factory
+    - path: sebot_marking
+    - path: sebot_slam_packages

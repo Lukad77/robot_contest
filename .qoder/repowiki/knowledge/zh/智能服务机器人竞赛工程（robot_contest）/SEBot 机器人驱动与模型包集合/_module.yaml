@@ -1,0 +1,8 @@
+schema_version: 1
+module_path: sebot_driver_packages
+title: SEBot 机器人驱动与模型包集合
+scope:
+    - sebot_ros_kits/src/sebot_driver/
+source_files: []
+depends_on: []
+related_to: []

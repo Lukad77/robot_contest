@@ -1,0 +1,215 @@
+# 知识卡导出索引文件
+schema_version: 1
+locale: zh-CN
+branch: master
+nodes_managed: true
+exported_at: "2026-07-29T02:47:44Z"
+modules:
+    "":
+        dir_name: 智能服务机器人竞赛工程（robot_contest）
+        title: 智能服务机器人竞赛工程（robot_contest）
+        scope:
+            - .gitignore
+            - README.md
+        source_files: []
+        children:
+            - sebot_driver_packages
+            - sebot_factory
+            - sebot_marking
+            - sebot_navigation_stack
+            - sebot_robot_control
+            - sebot_slam_packages
+            - sebot_speech_vision
+            - sebot_stdr_simulator
+        depends_on: []
+        related_to: []
+    sebot_driver_packages:
+        dir_name: SEBot 机器人驱动与模型包集合
+        title: SEBot 机器人驱动与模型包集合
+        scope:
+            - sebot_ros_kits/src/sebot_driver/
+        source_files: []
+        children:
+            - sebot_driver_packages/robot_pose_ekf
+            - sebot_driver_packages/rplidar_ros
+            - sebot_driver_packages/sebot_talon
+            - sebot_driver_packages/sebot_talon_moveit
+            - sebot_driver_packages/sebot_urdf
+        depends_on: []
+        related_to: []
+    sebot_driver_packages/robot_pose_ekf:
+        dir_name: 机器人位姿扩展卡尔曼滤波融合（robot_pose_ekf）
+        title: 机器人位姿扩展卡尔曼滤波融合（robot_pose_ekf）
+        scope:
+            - sebot_ros_kits/src/sebot_driver/robot_pose_ekf/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sebot_factory
+    sebot_driver_packages/rplidar_ros:
+        dir_name: RPLIDAR 激光雷达 ROS 驱动包
+        title: RPLIDAR 激光雷达 ROS 驱动包
+        scope:
+            - sebot_ros_kits/src/sebot_driver/rplidar_ros/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sebot_factory
+    sebot_driver_packages/sebot_talon:
+        dir_name: sebot_talon 机械臂 URDF 模型与 MoveIt 仿真脚本
+        title: sebot_talon 机械臂 URDF 模型与 MoveIt 仿真脚本
+        scope:
+            - sebot_ros_kits/src/sebot_driver/sebot_talon/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sebot_driver_packages/sebot_talon_moveit
+            - path: sebot_driver_packages/sebot_urdf
+            - path: sebot_factory/arm_control
+    sebot_driver_packages/sebot_talon_moveit:
+        dir_name: Talon 机械臂 MoveIt 配置包
+        title: Talon 机械臂 MoveIt 配置包
+        scope:
+            - sebot_ros_kits/src/sebot_driver/sebot_talon_moveit/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sebot_driver_packages/sebot_talon
+    sebot_driver_packages/sebot_urdf:
+        dir_name: SEBot 机器人 URDF 模型与可视化包
+        title: SEBot 机器人 URDF 模型与可视化包
+        scope:
+            - sebot_ros_kits/src/sebot_driver/sebot_urdf/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sebot_driver_packages/sebot_talon
+    sebot_factory:
+        dir_name: sebot_factory 机器人工厂自动化套件
+        title: sebot_factory 机器人工厂自动化套件
+        scope:
+            - sebot_factory/
+        source_files: []
+        children:
+            - sebot_factory/arm_control
+            - sebot_factory/sebot_marking
+            - sebot_factory/shared_headers_and_resources
+            - sebot_factory/unit_tests
+        depends_on: []
+        related_to:
+            - path: sebot_driver_packages/robot_pose_ekf
+            - path: sebot_driver_packages/rplidar_ros
+            - path: sebot_navigation_stack
+            - path: sebot_robot_control
+            - path: sebot_speech_vision
+    sebot_factory/arm_control:
+        dir_name: 机械臂串口驱动与测试程序
+        title: 机械臂串口驱动与测试程序
+        scope:
+            - sebot_factory/src/sebot_factory/include/arm.hpp
+            - sebot_factory/src/sebot_factory/unit/arm.cpp
+            - sebot_factory/src/sebot_factory/unit/test_arm.cpp
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sebot_driver_packages/sebot_talon
+            - path: sebot_factory/shared_headers_and_resources
+    sebot_factory/sebot_marking:
+        dir_name: 工厂定位与RViz可视化标记工具
+        title: 工厂定位与RViz可视化标记工具
+        scope:
+            - sebot_factory/src/sebot_marking/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    sebot_factory/shared_headers_and_resources:
+        dir_name: 共享头文件与资源（机械臂驱动、相机探测、AI检测、工具库）
+        title: 共享头文件与资源（机械臂驱动、相机探测、AI检测、工具库）
+        scope:
+            - sebot_factory/src/sebot_factory/include/
+            - sebot_factory/src/sebot_factory/res/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sebot_factory/arm_control
+    sebot_factory/unit_tests:
+        dir_name: sebot_factory 单元测试入口（需求确认_取件_结算）
+        title: sebot_factory 单元测试入口（需求确认/取件/结算）
+        scope:
+            - sebot_factory/src/sebot_factory/unit/order.cpp
+            - sebot_factory/src/sebot_factory/unit/pay.cpp
+            - sebot_factory/src/sebot_factory/unit/pick.cpp
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    sebot_marking:
+        dir_name: 工厂定位与RViz可视化标记界面
+        title: 工厂定位与RViz可视化标记界面
+        scope:
+            - sebot_factory/src/sebot_marking/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sebot_navigation_stack
+    sebot_navigation_stack:
+        dir_name: SEBot 导航栈集成与多点导航
+        title: SEBot 导航栈集成与多点导航
+        scope:
+            - sebot_ros_kits/src/sebot_navigation/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sebot_factory
+            - path: sebot_marking
+            - path: sebot_slam_packages
+    sebot_robot_control:
+        dir_name: SEBot 机器人底层驱动与操控节点
+        title: SEBot 机器人底层驱动与操控节点
+        scope:
+            - sebot_ros_kits/src/sebot_robot/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sebot_factory
+    sebot_slam_packages:
+        dir_name: SLAM 建图与自主探索集成包
+        title: SLAM 建图与自主探索集成包
+        scope:
+            - sebot_ros_kits/src/sebot_slam/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sebot_navigation_stack
+    sebot_speech_vision:
+        dir_name: 语音播报与视觉采集工具包
+        title: 语音播报与视觉采集工具包
+        scope:
+            - sebot_ros_kits/src/sebot_speech/
+            - sebot_ros_kits/src/sebot_visions/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sebot_factory
+    sebot_stdr_simulator:
+        dir_name: STDR 2D多机器人仿真器集成（sebot_ros_stdr）
+        title: STDR 2D多机器人仿真器集成（sebot_ros_stdr）
+        scope:
+            - sebot_ros_stdr/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []

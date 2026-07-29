@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: sebot_driver_packages/sebot_urdf
+title: SEBot 机器人 URDF 模型与可视化包
+scope:
+    - sebot_ros_kits/src/sebot_driver/sebot_urdf/
+source_files: []
+depends_on: []
+related_to:
+    - path: sebot_driver_packages/sebot_talon

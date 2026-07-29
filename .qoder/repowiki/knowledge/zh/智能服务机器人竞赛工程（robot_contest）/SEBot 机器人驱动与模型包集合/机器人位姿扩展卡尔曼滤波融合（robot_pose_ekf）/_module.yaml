@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: sebot_driver_packages/robot_pose_ekf
+title: 机器人位姿扩展卡尔曼滤波融合（robot_pose_ekf）
+scope:
+    - sebot_ros_kits/src/sebot_driver/robot_pose_ekf/
+source_files: []
+depends_on: []
+related_to:
+    - path: sebot_factory

@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: sebot_slam_packages
+title: SLAM 建图与自主探索集成包
+scope:
+    - sebot_ros_kits/src/sebot_slam/
+source_files: []
+depends_on: []
+related_to:
+    - path: sebot_navigation_stack

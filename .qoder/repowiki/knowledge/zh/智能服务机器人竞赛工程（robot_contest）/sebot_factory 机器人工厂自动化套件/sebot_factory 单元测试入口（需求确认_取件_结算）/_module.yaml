@@ -1,0 +1,10 @@
+schema_version: 1
+module_path: sebot_factory/unit_tests
+title: sebot_factory 单元测试入口（需求确认/取件/结算）
+scope:
+    - sebot_factory/src/sebot_factory/unit/order.cpp
+    - sebot_factory/src/sebot_factory/unit/pay.cpp
+    - sebot_factory/src/sebot_factory/unit/pick.cpp
+source_files: []
+depends_on: []
+related_to: []

@@ -1,0 +1,11 @@
+schema_version: 1
+module_path: sebot_driver_packages/sebot_talon
+title: sebot_talon 机械臂 URDF 模型与 MoveIt 仿真脚本
+scope:
+    - sebot_ros_kits/src/sebot_driver/sebot_talon/
+source_files: []
+depends_on: []
+related_to:
+    - path: sebot_driver_packages/sebot_talon_moveit
+    - path: sebot_driver_packages/sebot_urdf
+    - path: sebot_factory/arm_control

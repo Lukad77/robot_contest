@@ -1,0 +1,10 @@
+schema_version: 1
+module_path: sebot_speech_vision
+title: 语音播报与视觉采集工具包
+scope:
+    - sebot_ros_kits/src/sebot_speech/
+    - sebot_ros_kits/src/sebot_visions/
+source_files: []
+depends_on: []
+related_to:
+    - path: sebot_factory

@@ -1,0 +1,12 @@
+schema_version: 1
+module_path: sebot_factory/arm_control
+title: 机械臂串口驱动与测试程序
+scope:
+    - sebot_factory/src/sebot_factory/include/arm.hpp
+    - sebot_factory/src/sebot_factory/unit/arm.cpp
+    - sebot_factory/src/sebot_factory/unit/test_arm.cpp
+source_files: []
+depends_on: []
+related_to:
+    - path: sebot_driver_packages/sebot_talon
+    - path: sebot_factory/shared_headers_and_resources
